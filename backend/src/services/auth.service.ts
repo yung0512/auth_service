@@ -1,9 +1,25 @@
 import { userRepository } from '../repositories/user.repository';
 import { hashPassword, verifyPassword } from '../utils/password';
-import { signToken } from '../utils/jwt';
+import { signToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt';
 import { toPublicUser, type PublicUser } from '../models/user.model';
 import { HttpError } from '../middlewares/error.middleware';
 import type { LoginInput, RegisterInput } from '../schemas/auth.schema';
+
+interface AuthTokens {
+  token: string;
+  refreshToken: string;
+  user: PublicUser;
+}
+
+function issueTokens(user: { id: number; email: string }): {
+  token: string;
+  refreshToken: string;
+} {
+  return {
+    token: signToken({ sub: user.id, email: user.email }),
+    refreshToken: signRefreshToken({ sub: user.id, email: user.email }),
+  };
+}
 
 export const authService = {
   async register(input: RegisterInput): Promise<PublicUser> {
@@ -16,7 +32,7 @@ export const authService = {
     return toPublicUser(user);
   },
 
-  async login(input: LoginInput): Promise<{ token: string; user: PublicUser }> {
+  async login(input: LoginInput): Promise<AuthTokens> {
     const user = await userRepository.findByEmail(input.email);
     if (!user) {
       throw new HttpError(401, 'Invalid credentials');
@@ -25,8 +41,21 @@ export const authService = {
     if (!ok) {
       throw new HttpError(401, 'Invalid credentials');
     }
-    const token = signToken({ sub: user.id, email: user.email });
-    return { token, user: toPublicUser(user) };
+    return { ...issueTokens(user), user: toPublicUser(user) };
+  },
+
+  async refresh(refreshToken: string): Promise<AuthTokens> {
+    let payload;
+    try {
+      payload = verifyRefreshToken(refreshToken);
+    } catch {
+      throw new HttpError(401, 'Invalid or expired refresh token');
+    }
+    const user = await userRepository.findById(payload.sub);
+    if (!user) {
+      throw new HttpError(401, 'Invalid or expired refresh token');
+    }
+    return { ...issueTokens(user), user: toPublicUser(user) };
   },
 
   async me(userId: number): Promise<PublicUser> {

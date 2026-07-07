@@ -15,5 +15,8 @@ export const env = {
   port: Number(process.env.PORT ?? 3000),
   jwtSecret: required('JWT_SECRET'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
+  jwtRefreshSecret: required('JWT_REFRESH_SECRET'),
+  jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+  cookieSecure: (process.env.NODE_ENV ?? 'development') === 'production',
   databaseUrl: required('DATABASE_URL'),
 } as const;
