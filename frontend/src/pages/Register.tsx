@@ -1,47 +1,85 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  Alert,
+  Button,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
+import { useTranslation } from "react-i18next";
+import { AuthLayout } from "../components/AuthLayout";
 import { useAuth } from "../hooks/useAuth";
 
 export function Register() {
+  const { t } = useTranslation();
   const { register } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
+    setSubmitting(true);
     try {
       await register(email, password);
       navigate("/");
     } catch (err: any) {
-      setError(err.response?.data?.error ?? "Registration failed");
+      setError(err.response?.data?.error ?? t("register.error"));
+    } finally {
+      setSubmitting(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Register</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password (min 8 chars)"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Register</button>
-      <p>
-        Have an account? <Link to="/login">Login</Link>
-      </p>
-    </form>
+    <AuthLayout title={t("register.title")} subtitle={t("register.subtitle")}>
+      <form onSubmit={handleSubmit} noValidate>
+        <Stack spacing={2.5}>
+          {error && <Alert severity="error">{error}</Alert>}
+          <TextField
+            type="email"
+            label={t("common.email")}
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <TextField
+            type="password"
+            label={t("common.password")}
+            autoComplete="new-password"
+            helperText={t("register.passwordHelper")}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            disabled={submitting}
+            startIcon={<PersonAddRoundedIcon />}
+            sx={{ bgcolor: "#165e83", "&:hover": { bgcolor: "#124f6e" } }}
+          >
+            {submitting ? t("register.submitting") : t("register.submit")}
+          </Button>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center" }}
+          >
+            {t("register.haveAccount")}{" "}
+            <Link component={RouterLink} to="/login" sx={{ fontWeight: 600 }}>
+              {t("register.loginLink")}
+            </Link>
+          </Typography>
+        </Stack>
+      </form>
+    </AuthLayout>
   );
 }

@@ -1,0 +1,31 @@
+{
+  "common": {
+    "appName": "Simple Auth Service",
+    "email": "Email",
+    "password": "Password"
+  },
+  "login": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to your account to continue",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "error": "Login failed",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up"
+  },
+  "register": {
+    "title": "Create account",
+    "subtitle": "Sign up in just a few seconds",
+    "passwordHelper": "At least 8 characters",
+    "submit": "Sign up",
+    "submitting": "Signing up…",
+    "error": "Registration failed",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Sign in"
+  },
+  "dashboard": {
+    "welcome": "Welcome back 👋",
+    "protectedMessage": "You are authenticated. This is a protected page.",
+    "logout": "Log out"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "common": {
+    "appName": "Simple Auth Service",
+    "email": "メールアドレス",
+    "password": "パスワード"
+  },
+  "login": {
+    "title": "おかえりなさい",
+    "subtitle": "アカウントにログインして続行",
+    "submit": "ログイン",
+    "submitting": "ログイン中…",
+    "error": "ログインに失敗しました",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "registerLink": "新規登録"
+  },
+  "register": {
+    "title": "アカウント作成",
+    "subtitle": "数秒で登録が完了します",
+    "passwordHelper": "8文字以上",
+    "submit": "登録",
+    "submitting": "登録中…",
+    "error": "登録に失敗しました",
+    "haveAccount": "すでにアカウントをお持ちですか？",
+    "loginLink": "ログイン"
+  },
+  "dashboard": {
+    "welcome": "おかえりなさい 👋",
+    "protectedMessage": "認証に成功しました。これは保護されたページです。",
+    "logout": "ログアウト"
+  }
+}
