@@ -48,7 +48,11 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
             >
               <LockRoundedIcon />
             </Box>
-            <Typography variant="h4" component="h1" sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{ textAlign: "center" }}
+            >
               {title}
             </Typography>
             <Typography

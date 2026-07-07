@@ -1,5 +1,5 @@
-import type { User } from '@prisma/client';
-import { prisma } from '../config/db';
+import type { User } from "@prisma/client";
+import { prisma } from "../config/db";
 
 export const userRepository = {
   findByEmail(email: string): Promise<User | null> {

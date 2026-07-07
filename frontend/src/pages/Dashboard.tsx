@@ -26,7 +26,11 @@ export function Dashboard() {
       <AppBar position="static" elevation={0} sx={{ bgcolor: "#165e83" }}>
         <Toolbar>
           <ShieldRoundedIcon sx={{ mr: 1 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, fontWeight: 700 }}
+          >
             {t("common.appName")}
           </Typography>
           <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
@@ -45,7 +49,10 @@ export function Dashboard() {
       <Container maxWidth="sm" sx={{ py: 6 }}>
         <Card elevation={4} sx={{ borderRadius: 4 }}>
           <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
-            <Stack spacing={2.5} sx={{ alignItems: "center", textAlign: "center" }}>
+            <Stack
+              spacing={2.5}
+              sx={{ alignItems: "center", textAlign: "center" }}
+            >
               <Avatar
                 sx={{
                   width: 72,

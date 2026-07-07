@@ -1,13 +1,13 @@
-import type { Request, Response } from 'express';
-import { authService } from '../services/auth.service';
-import { loginSchema, registerSchema } from '../schemas/auth.schema';
-import type { AuthRequest } from '../middlewares/auth.middleware';
+import type { Request, Response } from "express";
+import { authService } from "../services/auth.service";
+import { loginSchema, registerSchema } from "../schemas/auth.schema";
+import type { AuthRequest } from "../middlewares/auth.middleware";
 import {
   REFRESH_COOKIE_NAME,
   setRefreshCookie,
   clearRefreshCookie,
-} from '../utils/cookies';
-import { HttpError } from '../middlewares/error.middleware';
+} from "../utils/cookies";
+import { HttpError } from "../middlewares/error.middleware";
 
 export const authController = {
   async register(req: Request, res: Response): Promise<void> {
@@ -26,9 +26,10 @@ export const authController = {
   async refresh(req: Request, res: Response): Promise<void> {
     const cookieToken = req.cookies?.[REFRESH_COOKIE_NAME];
     if (!cookieToken) {
-      throw new HttpError(401, 'Missing refresh token');
+      throw new HttpError(401, "Missing refresh token");
     }
-    const { token, refreshToken, user } = await authService.refresh(cookieToken);
+    const { token, refreshToken, user } =
+      await authService.refresh(cookieToken);
     setRefreshCookie(res, refreshToken);
     res.status(200).json({ success: true, data: { token, user }, error: null });
   },

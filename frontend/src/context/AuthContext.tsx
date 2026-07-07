@@ -1,5 +1,11 @@
-import { createContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { api, setToken } from '../api/client';
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import { api, setToken } from "../api/client";
 
 export interface AuthUser {
   id: number;
@@ -24,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function bootstrap() {
       try {
-        const res = await api.post('/auth/refresh');
+        const res = await api.post("/auth/refresh");
         setToken(res.data.data.token);
         setUser(res.data.data.user);
       } catch {
@@ -37,19 +43,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function login(email: string, password: string) {
-    const res = await api.post('/auth/login', { email, password });
+    const res = await api.post("/auth/login", { email, password });
     setToken(res.data.data.token);
     setUser(res.data.data.user);
   }
 
   async function register(email: string, password: string) {
-    await api.post('/auth/register', { email, password });
+    await api.post("/auth/register", { email, password });
     await login(email, password);
   }
 
   async function logout() {
     try {
-      await api.post('/auth/logout');
+      await api.post("/auth/logout");
     } catch {
       // 後端登出失敗仍清除本地狀態
     }

@@ -1,7 +1,7 @@
-import { Navigate } from 'react-router-dom';
-import type { ReactNode } from 'react';
-import { Box, CircularProgress } from '@mui/material';
-import { useAuth } from '../hooks/useAuth';
+import { Navigate } from "react-router-dom";
+import type { ReactNode } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
 
 export function ProtectedRoute({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
@@ -9,10 +9,10 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
     return (
       <Box
         sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <CircularProgress />

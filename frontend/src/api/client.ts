@@ -1,6 +1,6 @@
-import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 
-export const api = axios.create({ baseURL: '/api', withCredentials: true });
+export const api = axios.create({ baseURL: "/api", withCredentials: true });
 
 let accessToken: string | null = null;
 
@@ -24,7 +24,7 @@ let refreshPromise: Promise<string> | null = null;
 function refreshAccessToken(): Promise<string> {
   if (!refreshPromise) {
     refreshPromise = api
-      .post('/auth/refresh')
+      .post("/auth/refresh")
       .then((res) => {
         const token = res.data.data.token as string;
         setToken(token);
@@ -44,9 +44,14 @@ api.interceptors.response.use(
       | (InternalAxiosRequestConfig & { _retry?: boolean })
       | undefined;
     const status = error.response?.status;
-    const url = original?.url ?? '';
+    const url = original?.url ?? "";
 
-    if (status === 401 && original && !original._retry && !url.includes('/auth/refresh')) {
+    if (
+      status === 401 &&
+      original &&
+      !original._retry &&
+      !url.includes("/auth/refresh")
+    ) {
       original._retry = true;
       try {
         const token = await refreshAccessToken();

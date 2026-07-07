@@ -1,6 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Alert, Button, Link, Stack, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Link,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useTranslation } from "react-i18next";
 import { AuthLayout } from "../components/AuthLayout";
@@ -66,7 +73,11 @@ export function Login() {
             sx={{ textAlign: "center" }}
           >
             {t("login.noAccount")}{" "}
-            <Link component={RouterLink} to="/register" sx={{ fontWeight: 600 }}>
+            <Link
+              component={RouterLink}
+              to="/register"
+              sx={{ fontWeight: 600 }}
+            >
               {t("login.registerLink")}
             </Link>
           </Typography>
