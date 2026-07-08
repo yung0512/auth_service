@@ -28,7 +28,12 @@ export const authService = {
       throw new HttpError(409, "Email already registered");
     }
     const hash = await hashPassword(input.password);
-    const user = await userRepository.create(input.email, hash);
+    const user = await userRepository.create({
+      email: input.email,
+      passwordHash: hash,
+      firstName: input.firstName,
+      lastName: input.lastName,
+    });
     return toPublicUser(user);
   },
 

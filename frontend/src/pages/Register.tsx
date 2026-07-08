@@ -17,6 +17,8 @@ export function Register() {
   const { t } = useTranslation();
   const { register } = useAuth();
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +29,12 @@ export function Register() {
     setError("");
     setSubmitting(true);
     try {
-      await register(email, password);
+      await register(
+        email,
+        password,
+        firstName.trim() || undefined,
+        lastName.trim() || undefined,
+      );
       navigate("/");
     } catch (err: any) {
       setError(err.response?.data?.error ?? t("register.error"));
@@ -41,6 +48,22 @@ export function Register() {
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2.5}>
           {error && <Alert severity="error">{error}</Alert>}
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2.5}>
+            <TextField
+              fullWidth
+              label={t("common.firstName")}
+              autoComplete="given-name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              label={t("common.lastName")}
+              autoComplete="family-name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Stack>
           <TextField
             type="email"
             label={t("common.email")}

@@ -10,6 +10,8 @@ import { api, setToken } from "../api/client";
 export interface AuthUser {
   id: number;
   email: string;
+  firstName: string | null;
+  lastName: string | null;
   createdAt: string;
 }
 
@@ -17,7 +19,12 @@ interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -48,8 +55,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(res.data.data.user);
   }
 
-  async function register(email: string, password: string) {
-    await api.post("/auth/register", { email, password });
+  async function register(
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+  ) {
+    await api.post("/auth/register", { email, password, firstName, lastName });
     await login(email, password);
   }
 

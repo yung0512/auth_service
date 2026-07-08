@@ -1,6 +1,8 @@
 {
   "common": {
     "appName": "Simple Auth Service",
+    "firstName": "First name",
+    "lastName": "Last name",
     "email": "Email",
     "password": "Password"
   },

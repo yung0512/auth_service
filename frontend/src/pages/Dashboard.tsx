@@ -19,7 +19,11 @@ import { useAuth } from "../hooks/useAuth";
 export function Dashboard() {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
-  const initial = user?.email?.charAt(0).toUpperCase() ?? "?";
+  const fullName = [user?.firstName, user?.lastName]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  const initial = (fullName || user?.email || "?").charAt(0).toUpperCase();
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
@@ -68,6 +72,11 @@ export function Dashboard() {
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>
                   {t("dashboard.welcome")}
                 </Typography>
+                {fullName && (
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    {fullName}
+                  </Typography>
+                )}
                 <Typography variant="body1" color="text.secondary">
                   {user?.email}
                 </Typography>
