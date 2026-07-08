@@ -1,4 +1,4 @@
-# 整體架構 — Simple Auth Service
+# 整體架構 — Auth Service
 
 > 本文件依據 `README.md` 所述的技術選型（TypeScript + Express 後端、React 前端、JWT Token 驗證、Docker Compose 部署）推導出專案的整體架構設計，作為後續實作的藍圖。
 
@@ -18,14 +18,14 @@
 
 ## 2. 技術棧
 
-| 層          | 技術                                            |
-| ----------- | ----------------------------------------------- |
-| 前端        | React.js、TypeScript、React Router、Axios/Fetch |
-| 後端        | Node.js、Express、TypeScript                    |
-| 驗證        | JWT（jsonwebtoken）、bcrypt 密碼雜湊            |
-| 資料庫      | MySQL 8 + Prisma ORM（型別安全、schema/migration 管理）|
-| 驗證/schema | Zod（輸入驗證）                                 |
-| 部署        | Docker、Docker Compose、Nginx（前端靜態服務）   |
+| 層          | 技術                                                    |
+| ----------- | ------------------------------------------------------- |
+| 前端        | React.js、TypeScript、React Router、Axios/Fetch         |
+| 後端        | Node.js、Express、TypeScript                            |
+| 驗證        | JWT（jsonwebtoken）、bcrypt 密碼雜湊                    |
+| 資料庫      | MySQL 8 + Prisma ORM（型別安全、schema/migration 管理） |
+| 驗證/schema | Zod（輸入驗證）                                         |
+| 部署        | Docker、Docker Compose、Nginx（前端靜態服務）           |
 
 ## 3. 認證流程（依 README「Flow」）
 
@@ -141,8 +141,8 @@ model User {
 
 ```
 services:
-  frontend   → build ./frontend，Nginx 服務靜態檔，對外 80
-  backend    → build ./backend，Express 對外 3000，depends_on: db
+  frontend   → build ./frontend，Nginx 服務靜態檔，對外 8080
+  backend    → build ./backend，Express depends_on: db
   db         → mysql:8，volume 持久化資料，healthcheck 用 mysqladmin ping
 ```
 
@@ -160,14 +160,3 @@ services:
 - 使用參數化查詢 / ORM，避免 SQL Injection。
 - 錯誤訊息不洩漏敏感資訊（如「帳號或密碼錯誤」而非指出哪個錯）。
 - 前端 token 建議存於記憶體或 HttpOnly Cookie，降低 XSS 風險。
-
-## 10. 後續建議
-
-1. 補齊 README 的 API Endpoints 一節（可引用本文件第 6 節）。
-2. 資料庫採用 MySQL 8（InnoDB / utf8mb4），並建議透過 ORM 管理 schema 與 migration。
-3. 導入 refresh token 機制以提升 access token 安全性。
-4. 依全域測試規範建立單元／整合／E2E 測試（目標 80% 覆蓋率）。
-
-```
-
-```

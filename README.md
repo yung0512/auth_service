@@ -1,4 +1,4 @@
-# Simple Auth Service
+# Auth Service
 
 メール／パスワードによる認証機能（新規登録・ログイン・ログアウト・トークン更新）を、**フロントエンド・バックエンド・データ保存**まで含めて実装した課題です。
 
@@ -14,19 +14,19 @@
 
 ### 方法 A: Docker（推奨・試験官の動作確認向け）
 
-| ツール | バージョン |
-| ------ | ---------- |
-| Docker | 24 以上 |
+| ツール         | バージョン                  |
+| -------------- | --------------------------- |
+| Docker         | 24 以上                     |
 | Docker Compose | v2 以上（`docker compose`） |
 
 Docker さえあれば、Node.js や MySQL をローカルに用意する必要はありません。
 
 ### 方法 B: ローカルで個別に起動（開発向け）
 
-| ツール | バージョン |
-| ------ | ---------- |
-| Node.js | 26 以上 |
-| MySQL | 8 以上 |
+| ツール  | バージョン |
+| ------- | ---------- |
+| Node.js | 26 以上    |
+| MySQL   | 8 以上     |
 
 ---
 
@@ -45,11 +45,11 @@ docker compose up --build
 
 起動後のアクセス先:
 
-| サービス | URL |
-| -------- | --- |
-| フロントエンド | http://localhost |
+| サービス         | URL                       |
+| ---------------- | ------------------------- |
+| フロントエンド   | http://localhost          |
 | バックエンド API | http://localhost:3000/api |
-| MySQL | localhost:3306 |
+| MySQL            | localhost:3306            |
 
 - DB マイグレーション（テーブル作成）はバックエンドコンテナ起動時に
   `prisma migrate deploy` が自動実行されるため、手動作業は不要です。
@@ -100,13 +100,13 @@ cd frontend && npm test   # API クライアント（401→リフレッシュ再
 
 ### 使用したワークフローと箇所
 
-| # | 使用箇所 | 内容 |
-| - | -------- | ---- |
-| 1 | 設計文書の生成 | 技術選定（Express / React / JWT / Docker）を指定し、`ARCHITECTURE.md` を生成。内容を人間がレビュー。 |
-| 2 | バックエンド雛形 | `ARCHITECTURE.md` に沿って、routes / controllers / services / repositories / middlewares / utils を生成。 |
-| 3 | フロントエンド雛形 | 認証コンテキスト、ログイン／登録画面、Axios クライアント（トークン更新インターセプター）を生成。 |
-| 4 | テストコード | ファイル階層に対応させたテスト（backend: JWT・Cookie・AuthService、frontend: API クライアント）を生成。 |
-| 5 | モデル拡張 | User モデルへ `firstName` / `lastName` を追加し、スキーマ・マイグレーション・API・画面まで横断的に反映。 |
+| #   | 使用箇所           | 内容                                                                                                      |
+| --- | ------------------ | --------------------------------------------------------------------------------------------------------- |
+| 1   | 設計文書の生成     | 技術選定（Express / React / JWT / Docker）を指定し、`ARCHITECTURE.md` を生成。内容を人間がレビュー。      |
+| 2   | バックエンド雛形   | `ARCHITECTURE.md` に沿って、routes / controllers / services / repositories / middlewares / utils を生成。 |
+| 3   | フロントエンド雛形 | 認証コンテキスト、ログイン／登録画面、Axios クライアント（トークン更新インターセプター）を生成。          |
+| 4   | テストコード       | ファイル階層に対応させたテスト（backend: JWT・Cookie・AuthService、frontend: API クライアント）を生成。   |
+| 5   | モデル拡張         | User モデルへ `firstName` / `lastName` を追加し、スキーマ・マイグレーション・API・画面まで横断的に反映。  |
 
 ### 代表的なプロンプト（実際に使用したもの）
 
@@ -173,24 +173,24 @@ routes → controllers → services → repositories → Prisma → MySQL
 
 ### API エンドポイント
 
-| メソッド | パス | 認証 | 説明 |
-| -------- | ---- | ---- | ---- |
-| POST | `/api/auth/register` | 不要 | 新規登録（email, password, 任意で firstName/lastName） |
-| POST | `/api/auth/login` | 不要 | ログイン（アクセストークン発行 + リフレッシュ Cookie 設定） |
-| POST | `/api/auth/refresh` | Cookie | アクセストークン再発行 |
-| POST | `/api/auth/logout` | 要 | リフレッシュ Cookie の破棄 |
-| GET | `/api/auth/me` | 要 | ログイン中ユーザー情報の取得 |
+| メソッド | パス                 | 認証   | 説明                                                        |
+| -------- | -------------------- | ------ | ----------------------------------------------------------- |
+| POST     | `/api/auth/register` | 不要   | 新規登録（email, password, 任意で firstName/lastName）      |
+| POST     | `/api/auth/login`    | 不要   | ログイン（アクセストークン発行 + リフレッシュ Cookie 設定） |
+| POST     | `/api/auth/refresh`  | Cookie | アクセストークン再発行                                      |
+| POST     | `/api/auth/logout`   | 要     | リフレッシュ Cookie の破棄                                  |
+| GET      | `/api/auth/me`       | 要     | ログイン中ユーザー情報の取得                                |
 
 ### データモデル（User）
 
-| フィールド | 型 | 説明 |
-| ---------- | -- | ---- |
-| id | Int | 主キー（自動採番） |
-| email | String | 一意・ログイン ID |
-| password | String | bcrypt ハッシュ |
-| firstName | String? | 名（任意） |
-| lastName | String? | 姓（任意） |
-| createdAt / updatedAt | DateTime | 作成・更新日時 |
+| フィールド            | 型       | 説明               |
+| --------------------- | -------- | ------------------ |
+| id                    | Int      | 主キー（自動採番） |
+| email                 | String   | 一意・ログイン ID  |
+| password              | String   | bcrypt ハッシュ    |
+| firstName             | String?  | 名（任意）         |
+| lastName              | String?  | 姓（任意）         |
+| createdAt / updatedAt | DateTime | 作成・更新日時     |
 
 ### ディレクトリ構成
 
