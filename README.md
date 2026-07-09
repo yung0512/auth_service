@@ -47,11 +47,11 @@ docker compose up --build
 
 起動後のアクセス先:
 
-| サービス         | URL                       |
-| ---------------- | ------------------------- |
-| フロントエンド   | http://localhost          |
-| バックエンド API | http://localhost:3000/api |
-| MySQL            | localhost:3306            |
+| サービス         | URL                   |
+| ---------------- | --------------------- |
+| フロントエンド   | http://localhost:8080 |
+| バックエンド API |                       |
+| MySQL            |                       |
 
 - DB マイグレーション（テーブル作成）はバックエンドコンテナ起動時に
   `prisma migrate deploy` が自動実行されるため、手動作業は不要です。
